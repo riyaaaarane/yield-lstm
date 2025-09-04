@@ -60,9 +60,8 @@ This project integrates **statistical time-series analysis** with **deep learnin
 The model is evaluated using the following metrics:
 
 - **Mean Squared Error (MSE):**  
-  \[
-  \text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2
-  \]
+MSE = (1/n) * Σ (yᵢ - ŷᵢ)²
+
 
 - **Root Mean Squared Error (RMSE):**  
   \[
