@@ -32,9 +32,7 @@ This project integrates **statistical time-series analysis** with **deep learnin
    - Missing values handled and temporal alignment performed.
    - Features normalized using `MinMaxScaler`.
    - Data reshaped into supervised format:  
-     \[
-     X \in \mathbb{R}^{N \times T \times F}, \quad y \in \mathbb{R}^{N \times 1}
-     \]
+     X ∈ R^(N × T × F),  y ∈ R^(N × 1)  
      where:
      - \(N\) = number of samples  
      - \(T\) = lookback period  
@@ -90,12 +88,6 @@ Where:
 
 ---
 
-## 🖼️ Visualizations
-- **Seasonal Decomposition Plots** for rainfall, temperature, LAI, FAPAR, and yield.
-- **Training vs Validation Loss** curves.
-- **Predicted vs Actual Yield** time-series plots.
-
----
 
 ## 📦 Requirements
 Install the dependencies before running the code:
