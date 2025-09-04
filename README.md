@@ -59,29 +59,27 @@ This project integrates **statistical time-series analysis** with **deep learnin
 ## 📊 Performance Metrics
 The model is evaluated using the following metrics:
 
-- **Mean Squared Error (MSE):**  
-MSE = (1/n) * Σ (yᵢ - ŷᵢ)²
+**1. Mean Squared Error (MSE):**  
+MSE = (1/n) * Σ (yᵢ - ŷᵢ)²  
 
+**2. Root Mean Squared Error (RMSE):**  
+RMSE = √[ (1/n) * Σ (yᵢ - ŷᵢ)² ]  
 
-- **Root Mean Squared Error (RMSE):**  
-  \[
-  \text{RMSE} = \sqrt{\text{MSE}}
-  \]
+**3. Mean Absolute Error (MAE):**  
+MAE = (1/n) * Σ |yᵢ - ŷᵢ|  
 
-- **Mean Absolute Error (MAE):**  
-  \[
-  \text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|y_i - \hat{y}_i|
-  \]
+**4. Coefficient of Determination (R²):**  
+R² = 1 - [ Σ(yᵢ - ŷᵢ)² / Σ(yᵢ - ȳ)² ]  
 
-- **Coefficient of Determination ($R^2$):**  
-  \[
-  R^2 = 1 - \frac{\sum(y_i - \hat{y}_i)^2}{\sum(y_i - \bar{y})^2}
-  \]
+**5. Mean Absolute Percentage Error (MAPE):**  
+MAPE = (100/n) * Σ |(yᵢ - ŷᵢ) / yᵢ|  
 
-- **Mean Absolute Percentage Error (MAPE):**  
-  \[
-  \text{MAPE} = \frac{100}{n} \sum_{i=1}^n \left| \frac{y_i - \hat{y}_i}{y_i} \right|
-  \]
+Where:  
+- yᵢ = actual value  
+- ŷᵢ = predicted value  
+- ȳ = mean of actual values  
+- n = number of samples  
+
 
 ---
 
