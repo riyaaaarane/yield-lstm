@@ -1,5 +1,3 @@
-# yield-lstm
-
 # 🌾 Crop Yield Prediction using LSTM and Time-Series Decomposition
 
 This repository presents a **data-driven analysis of agricultural productivity** across five villages in Karnataka—**Dhawaleshwar, Kulali, Mahalingpur, Munyal, and Teradal**—over a six-year period (2007–2012).  
