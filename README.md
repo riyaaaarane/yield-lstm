@@ -1,17 +1,18 @@
-# 🌾 Crop Yield Prediction using LSTM and Time-Series Decomposition
+# 🌾 Crop Yield Prediction using Bidirectional LSTM & Machine Learning
 
 This repository presents a **data-driven analysis of agricultural productivity** across five villages in Karnataka—**Dhawaleshwar, Kulali, Mahalingpur, Munyal, and Teradal**—over a six-year period (2007–2012).  
-The study leverages **climate data and vegetation indices** to model and forecast crop yields, providing insights into how environmental variability affects agricultural output.
+The study leverages **climate data, vegetation indices, and crop yield data** to forecast agricultural output using both **traditional ML models** and **deep learning (Bidirectional LSTM)**.
 
 ---
 
 ## 📌 Project Overview
-Agricultural productivity is shaped by complex interactions between **rainfall, temperature, and vegetation dynamics**.  
-This project integrates **statistical time-series analysis** with **deep learning (LSTM)** to:
-- Analyze climatic variables and vegetation indices.
-- Perform seasonal decomposition to identify trend, seasonality, and residual effects.
-- Forecast crop yields using **Long Short-Term Memory (LSTM)** networks.
-- Evaluate model performance using standard regression metrics.
+Agricultural productivity is influenced by **rainfall, temperature, and vegetation dynamics**.  
+This project explores:
+
+- **Statistical & feature engineering approaches:** lag features, rolling means.
+- **Machine learning models:** Linear Regression, Ridge, Lasso, Elastic Net, Random Forest, KNN, XGBoost.
+- **Deep learning:** Bidirectional LSTM for sequential data.
+- **Model evaluation:** Compare performance across models using R², MAE, and RMSE.
 
 ---
 
@@ -26,69 +27,59 @@ This project integrates **statistical time-series analysis** with **deep learnin
 ---
 
 ## ⚙️ Methodology
-1. **Data Preprocessing**
-   - Missing values handled and temporal alignment performed.
-   - Features normalized using `MinMaxScaler`.
-   - Data reshaped into supervised format:  
-     X ∈ R^(N × T × F),  y ∈ R^(N × 1)  
-     where:
-     - \(N\) = number of samples  
-     - \(T\) = lookback period  
-     - \(F\) = number of features  
 
-2. **Statistical Analysis**
-   - Seasonal decomposition applied to precipitation, temperature, LAI, FAPAR, and yield.
+### 1. Stationarity & ADF Test
+- Performed **Augmented Dickey-Fuller (ADF) test** on all key variables: precipitation, temperature, LAI, FAPAR, and yield.
+- Checked for **stationarity** in time-series data.
+- If non-stationary, **differencing** or transformations were applied.
+- This ensures better performance for models sensitive to temporal trends (especially LSTM).
 
-3. **Model Architecture**
-   - Two stacked **LSTM layers** (50 units each).
-   - One **Dense layer** (1 neuron) for yield prediction.
-   - Total trainable parameters: **31,451**.
+### 2. Data Preprocessing
+- Handle missing values.
+- Generate **lag features** (`1, 2, 7` days) for short-term dependencies.
+- Generate **rolling mean features** (`7, 30` days) for climate variables.
+- One-hot encode categorical villages.
+- Scale features using `MinMaxScaler`.
+- Prepare sequences for LSTM with a **90-day lookback**.
 
-4. **Training & Optimization**
-   - Optimizer: **Adam**  
-   - Loss: **Mean Squared Error (MSE)**  
-   - Training: 10 epochs, batch size = 32  
-   - Validation split = 20%  
+### 3. Baseline Machine Learning Models
+- **Linear Regression:** R² ≈ 0.994  
+- **Ridge Regression:** R² ≈ 0.993  
+- **Lasso Regression:** R² ≈ 0.994  
+- **Elastic Net Regression:** R² ≈ 0.984  
+- **Random Forest Regressor:** R² ≈ 0.847  
+- **K-Nearest Neighbors:** R² ≈ 0.172  
+- **XGBoost Regressor:** R² ≈ 0.493  
 
----
+> Linear models performed exceptionally well due to strong correlations and low noise in village-level yield data.
 
-## 📊 Performance Metrics
-The model is evaluated using the following metrics:
+### 4. Bidirectional LSTM Model
+- **Architecture**:
+  - BiLSTM (128 units, return sequences)
+  - Dropout 0.2
+  - BiLSTM (256 units)
+  - Dropout 0.2
+  - Dense layer (1 neuron for yield)
+- Optimizer: Adam (lr=0.004, clipnorm=1.0)
+- Loss: Mean Squared Error
+- Early stopping: patience=30 epochs
 
-**1. Mean Squared Error (MSE):**  
-MSE = (1/n) * Σ (yᵢ - ŷᵢ)²  
+### 4. Training
+- Epochs: 100
+- Batch size: 32
+- Validation split: 20%
 
-**2. Root Mean Squared Error (RMSE):**  
-RMSE = √[ (1/n) * Σ (yᵢ - ŷᵢ)² ]  
-
-**3. Mean Absolute Error (MAE):**  
-MAE = (1/n) * Σ |yᵢ - ŷᵢ|  
-
-**4. Coefficient of Determination (R²):**  
-R² = 1 - [ Σ(yᵢ - ŷᵢ)² / Σ(yᵢ - ȳ)² ]  
-
-**5. Mean Absolute Percentage Error (MAPE):**  
-MAPE = (100/n) * Σ |(yᵢ - ŷᵢ) / yᵢ|  
-
-Where:  
-- yᵢ = actual value  
-- ŷᵢ = predicted value  
-- ȳ = mean of actual values  
-- n = number of samples  
-
+### 5. Evaluation Metrics
+- **Mean Absolute Error (MAE)**
+- **Root Mean Squared Error (RMSE)**
+- **R² Score**
 
 ---
 
-## 📈 Results
-- Seasonal patterns strongly influence yield variations.
-- Rainfall distribution and vegetation indices (LAI, FAPAR) are key predictors.
-- LSTM outperforms traditional statistical baselines in yield forecasting.
-
----
+> The Bidirectional LSTM captures **temporal patterns** more effectively, while linear models are strong baselines for small, structured datasets.
 
 
-## 📦 Requirements
-Install the dependencies before running the code:
 
-```bash
+
+
 pip install numpy pandas matplotlib scikit-learn statsmodels tensorflow
